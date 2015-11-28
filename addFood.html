@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/roboto.min.css" rel="stylesheet">
+    <link href="css/material.css" rel="stylesheet">
+    <link href="css/ripples.min.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
+</head>
+<body>
+    <form class="form-horizontal" onsubmit="addFoods()">
+        <fieldset>
+            <legend>Add a food below</legend>
+            <div class="form-group">
+                <input class="form-control input-lg" id="inputFood" placeholder="Enter Food Here" type="text">
+                <input class="form-control input-lg" id="expireDate" placeholder="Expiry (MM/DD/YYYY)" type="date">
+            </div>
+            <div class="form-group">
+                <div class="col-lg-10 col-lg-offset-2">
+                    <a href="main.html" class="btn btn-default">Home</a>
+                    <button type="submit" class="btn btn-primary" onclick="checkDate(document.getElementById('expireDate').value)">Submit</button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+    <div id="listOfFood">
+    </div>
+</body>
+<script src="js/script.js"></script>
+<script>
+            $(document).ready(function() {
+                // This command is used to initialize some elements and make them work properly
+                $.material.init();
+            });
+        </script>
+</html>
