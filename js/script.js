@@ -2,14 +2,26 @@
 var addFoods = function(){
 	var name = document.getElementById("inputFood").value;
 	var date = document.getElementById("expireDate").value;
-	var foodList = JSON.parse(localStorage.getItem('foodStore')) || [];
-	var expList = JSON.parse(localStorage.getItem('expStore')) || [];
-	foodList.push(name);
-	expList.push(date);
-	localStorage.setItem('foodStore', JSON.stringify(foodList));
-	localStorage.setItem('expStore', JSON.stringify(expList));
-	//location.href ="main.html";
-	//alert("you shouldn't see this");
+	if (!checkDate(document.getElementById("expireDate")))
+	{
+		location.href = 'addFood.html';
+		return false;
+	}
+	else{
+		var foodList = JSON.parse(localStorage.getItem('foodStore')) || [];
+		var expList = JSON.parse(localStorage.getItem('expStore')) || [];
+		foodList.push(name);
+		expList.push(date);
+		localStorage.setItem('foodStore', JSON.stringify(foodList));
+		localStorage.setItem('expStore', JSON.stringify(expList));
+		location.href ='main.html';
+		//spawnNotification("bodyTest","iconTest","titleTest");
+		alert();
+	}
+}
+function spawnNotification(theBody,theIcon,theTitle){
+	var options = {body: theBody, icon: theIcon}
+	var n = new Notification(theTitle,options);
 }
 /*
 var addFoods2 = function(){
@@ -31,6 +43,17 @@ function addDiv(i){
 	var food = JSON.parse(localStorage.getItem('foodStore'));
 	var date = JSON.parse(localStorage.getItem('expStore'));
 	$("#initialDiv").append('<div class="well"><div class="row-picture"><div class="least-content" align="right" style="float: right; position: relative; top: +12px;">'+ daysLeft(date[i]) +' </div><img class="circle" src="'+ img +'" alt="icon"></div>' + food[i] +'</div>')
+	return;
+}
+function addDivWithDelete(i){
+	alert("in addDivWithDelete");
+	var img = "images/9.png";
+	var food = JSON.parse(localStorage.getItem('foodStore'));
+	var date = JSON.parse(localStorage.getItem('expStore'));
+	alert("before jquery");
+	
+	$("#initialDiv").append('<div class="well"><div class="row-picture"><div class="least-content" align="right" style="float: right; position: relative; top: +12px; right: 30%">'+ daysLeft(date[i]) +'</div><div><a class="btn btn-primary btn-lg" onclick="test()" align="right" style="float: right;position: relative; right: -5%">Delete</a></div><img class="circle" src="'+ img +'" alt="icon"></div>'+ food[i] +'</div>')
+	alert("after jquery");
 	return;
 }
 /*
@@ -119,4 +142,21 @@ function checkDate(field) {
 function byDate(){
 	
 	
+}
+function edit(){
+	
+		$("#initialDiv").append('<div class="well"><div class="row-picture"><div class="least-content" align="right" style="float: right; position: relative; top: +12px;">'+ daysLeft(date[i]) +' </div><img class="circle" src="'+ img +'" alt="icon"></div>' + food[i] +'</div>')
+}
+function deleteFood(){
+	
+}
+function test(){
+	alert("before other stuff");
+	var food = JSON.parse(localStorage.getItem('foodStore'));
+	var i = 0;
+	// Iterate through 
+	for (i ; i< food.length; i++){
+		addDivWithDelete(i);
+	}
+	alert("button has been pressed");
 }
