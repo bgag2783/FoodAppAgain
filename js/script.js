@@ -144,7 +144,6 @@ function byDate(){
 	
 }
 function edit(){
-	
 		$("#initialDiv").append('<div class="well"><div class="row-picture"><div class="least-content" align="right" style="float: right; position: relative; top: +12px;">'+ daysLeft(date[i]) +' </div><img class="circle" src="'+ img +'" alt="icon"></div>' + food[i] +'</div>')
 }
 function deleteFood(){
@@ -159,4 +158,7 @@ function test(){
 		addDivWithDelete(i);
 	}
 	alert("button has been pressed");
+}
+function oneWeek(){
+	
 }
