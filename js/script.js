@@ -129,13 +129,6 @@ function deleteFood(){
 	
 }
 function test(){
-	alert("before other stuff");
-	var food = JSON.parse(localStorage.getItem('foodStore'));
-	var i = 0;
-	// Iterate through 
-	for (i ; i< food.length; i++){
-		addDivWithDelete(i);
-	}
 	alert("button has been pressed");
 }
 function oneWeek(){
@@ -162,7 +155,9 @@ function oneWeek(){
 
 	localStorage.setItem('foodStore', JSON.stringify(foodList));
 	localStorage.setItem('expStore', JSON.stringify(expList));
-	location.href = 'index.html';
+	//location.href = 'index.html';
+	window.location.replace('index.html');
+	//$.mobile.changePage('index.html');
 	//spawnNotification("bodyTest","iconTest","titleTest");
 	alert("Added " + name);
 	//window.location.href = 'index.html';
@@ -191,7 +186,9 @@ function twoWeeks(){
 
 	localStorage.setItem('foodStore', JSON.stringify(foodList));
 	localStorage.setItem('expStore', JSON.stringify(expList));
-	location.href = 'index.html';
+	//location.href = 'index.html';
+	//$.mobile.changePage('index.html');
+	window.location.replace('index.html');
 	alert("Added " + name);
 	//window.location.href ='index.html';
 	//spawnNotification("bodyTest","iconTest","titleTest");
@@ -220,7 +217,10 @@ function oneMonth(){
 
 	localStorage.setItem('foodStore', JSON.stringify(foodList));
 	localStorage.setItem('expStore', JSON.stringify(expList));
-	location.href = 'index.html';
+	//window.location='index.html';
+	//location.href = 'index.html';
+	$.mobile.changePage('index.html');
+	window.location.assign('index.html');
 	alert("Added " + name);
 	//window.location.href ='index.html';
 	//spawnNotification("bodyTest","iconTest","titleTest");
@@ -250,4 +250,31 @@ function sortList(){
 function randomImage(){
  return "images/"+ Math.floor((Math.random() * 83) + 2) +".png";
 }
+function submitButton(){
+	var name = document.getElementById("inputFood").value;
+	var dateEntered = document.getElementById("expireDate").value;
+	//var today = new Date();
+	//var future = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000);
+	var foodList = JSON.parse(localStorage.getItem('foodStore')) || [];
+	var expList = JSON.parse(localStorage.getItem('expStore')) || [];
+	var list = [];
+	foodList.push(name);
+	expList.push(dateEntered);
 
+	for (var j=0; j<foodList.length; j++)
+		list.push({'namedfood': foodList[j], 'exp': expList[j]});
+	list.sort(function(a, b) {
+		return ((a.exp < b.exp) ? -1 : ((a.exp == b.exp) ? 0 : 1));
+	});
+	for (var k=0; k<list.length; k++) {
+		foodList[k] = list[k].namedfood;
+		expList[k] = list[k].exp;
+	}	
+	localStorage.setItem('foodStore', JSON.stringify(foodList));
+	localStorage.setItem('expStore', JSON.stringify(expList));
+	//window.location='index.html';
+	//location.href = 'index.html';
+	//$.mobile.changePage('index.html');
+	window.location.assign('index.html');
+	alert("");
+}
