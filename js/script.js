@@ -2,7 +2,7 @@
 var addFoods = function(){
 	var name = document.getElementById("inputFood").value;
 	var date = document.getElementById("expireDate").value;
-	if (!checkDate(document.getElementById("expireDate")))
+	if (daysLeft(date[i]) == NaN)
 	{
 		location.href = 'addFood.html';
 		return false;
@@ -10,7 +10,7 @@ var addFoods = function(){
 	else{
 		var foodList = JSON.parse(localStorage.getItem('foodStore')) || [];
 		var expList = JSON.parse(localStorage.getItem('expStore')) || [];
-		foodList.push(name);
+		foodList.push(namefood);
 		expList.push(date);
 		localStorage.setItem('foodStore', JSON.stringify(foodList));
 		localStorage.setItem('expStore', JSON.stringify(expList));
@@ -18,28 +18,17 @@ var addFoods = function(){
 		//spawnNotification("bodyTest","iconTest","titleTest");
 		alert();
 	}
+	sortList();
 }
 function spawnNotification(theBody,theIcon,theTitle){
 	var options = {body: theBody, icon: theIcon}
 	var n = new Notification(theTitle,options);
 }
-/*
-var addFoods2 = function(){
-	var name = document.getElementById("inputFood").value;
-	var date = document.getElementById("expireDate").value;
-	var foodList = JSON.parse(localStorage.getItem('foodStore')) || [];
-	var expList = JSON.parse(localStorage.getItem('expStore')) || [];
-	var both = [];
-	var i=both.length;
-	both.push({num:i,foodName:name,foodDate:date});
-	localStorage.setItem('foodStore', JSON.stringify(foodList));
-	localStorage.setItem('expStore', JSON.stringify(expList));
-	localStorage.setItem('bothStore',JSON.stringify(both));
-}
-*/
+
 // The following function adds the input food item to the list
 function addDiv(i){
-	var img = "images/9.png";
+	var img = randomImage();
+	//sortList();
 	var food = JSON.parse(localStorage.getItem('foodStore'));
 	var date = JSON.parse(localStorage.getItem('expStore'));
 	$("#initialDiv").append('<div class="well"><div class="row-picture"><div class="least-content" align="right" style="float: right; position: relative; top: +12px;">'+ daysLeft(date[i]) +' </div><img class="circle" src="'+ img +'" alt="icon"></div>' + food[i] +'</div>')
@@ -52,19 +41,11 @@ function addDivWithDelete(i){
 	var date = JSON.parse(localStorage.getItem('expStore'));
 	alert("before jquery");
 	
-	$("#initialDiv").append('<div class="well"><div class="row-picture"><div class="least-content" align="right" style="float: right; position: relative; top: +12px; right: 30%">'+ daysLeft(date[i]) +'</div><div><a class="btn btn-primary btn-lg" onclick="test()" align="right" style="float: right;position: relative; right: -5%">Delete</a></div><img class="circle" src="'+ img +'" alt="icon"></div>'+ food[i] +'</div>')
+	$("#initialDiv").append('<div class="well"><div class="row-picture"><div class="least-content" align="right" style="float: right; position: relative; top: +12px; right: 30%">'+ daysLeft(date[i]) +'</div><div><a class="btn btn-primary btn-lg" onclick="test()" align="center" style="float: right; position: relative">Delete</a></div><img class="circle" src="'+ img +'" alt="icon"></div>'+ food[i] +'</div>')
 	alert("after jquery");
 	return;
 }
-/*
-function addDiv2(i){
-	var img = "images/9.png";
-	var food = JSON.parse(localStorage.getItem('foodStore'));
-	var date = JSON.parse(localStorage.getItem('expStore'));
-	$("#initialDiv").append('<div class="well"><div class="row-picture"><div class="least-content" align="right" style="float: right; position: relative; top: +12px;">'+ daysLeft(date[i]) +' </div><img class="circle" src="'+ img +'" alt="icon"></div>' + food[i] +'</div>')
-	return;
-}
-*/
+
 // The following function adds all elements in localStorage to food list
 function addAll(){
 	var food = JSON.parse(localStorage.getItem('foodStore'));
@@ -73,6 +54,7 @@ function addAll(){
 	for (i ; i< food.length; i++){
 		addDiv(i);
 	}
+	sortList();
 }
 
 // The following function calculates the days left until a food item expires
@@ -106,10 +88,10 @@ function clearAll(){
 }
 
 // The following function validates the input field
-function checkDate(field) {
+/*function checkDate(field) {
 	var allowBlank = true;
 	var minYear = 2014;
-	var maxYear = (new Date()).getFullYear()+1;
+	var maxYear = (new Date()).getFullYear()+2;
 	
 	var errorMsg = "";
 	
@@ -138,11 +120,8 @@ function checkDate(field) {
 		return false;
 	}
 	return true;
-}
-function byDate(){
-	
-	
-}
+}*/
+
 function edit(){
 		$("#initialDiv").append('<div class="well"><div class="row-picture"><div class="least-content" align="right" style="float: right; position: relative; top: +12px;">'+ daysLeft(date[i]) +' </div><img class="circle" src="'+ img +'" alt="icon"></div>' + food[i] +'</div>')
 }
@@ -160,5 +139,115 @@ function test(){
 	alert("button has been pressed");
 }
 function oneWeek(){
-	
+	var name = document.getElementById("inputFood").value;
+	var today = new Date();
+	var future = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
+	var foodList = JSON.parse(localStorage.getItem('foodStore')) || [];
+	var expList = JSON.parse(localStorage.getItem('expStore')) || [];
+	var list = [];
+	foodList.push(name);
+	expList.push(future);
+
+	for (var j=0; j<foodList.length; j++)
+		list.push({'namedfood': foodList[j], 'exp': expList[j]});
+
+	list.sort(function(a, b) {
+		return ((a.exp < b.exp) ? -1 : ((a.exp == b.exp) ? 0 : 1));
+	});
+
+	for (var k=0; k<list.length; k++) {
+		foodList[k] = list[k].namedfood;
+		expList[k] = list[k].exp;
+	}	
+
+	localStorage.setItem('foodStore', JSON.stringify(foodList));
+	localStorage.setItem('expStore', JSON.stringify(expList));
+	location.href = 'index.html';
+	//spawnNotification("bodyTest","iconTest","titleTest");
+	alert("Added " + name);
+	//window.location.href = 'index.html';
 }
+function twoWeeks(){
+	var name = document.getElementById("inputFood").value;
+	var today = new Date();
+	var future = new Date(today.getTime() + 14 * 24 * 60 * 60 * 1000);
+	var foodList = JSON.parse(localStorage.getItem('foodStore')) || [];
+	var expList = JSON.parse(localStorage.getItem('expStore')) || [];
+	var list = [];
+	foodList.push(name);
+	expList.push(future);
+
+	for (var j=0; j<foodList.length; j++)
+		list.push({'namedfood': foodList[j], 'exp': expList[j]});
+
+	list.sort(function(a, b) {
+		return ((a.exp < b.exp) ? -1 : ((a.exp == b.exp) ? 0 : 1));
+	});
+
+	for (var k=0; k<list.length; k++) {
+		foodList[k] = list[k].namedfood;
+		expList[k] = list[k].exp;
+	}	
+
+	localStorage.setItem('foodStore', JSON.stringify(foodList));
+	localStorage.setItem('expStore', JSON.stringify(expList));
+	location.href = 'index.html';
+	alert("Added " + name);
+	//window.location.href ='index.html';
+	//spawnNotification("bodyTest","iconTest","titleTest");
+}
+function oneMonth(){
+	var name = document.getElementById("inputFood").value;
+	var today = new Date();
+	var future = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000);
+	var foodList = JSON.parse(localStorage.getItem('foodStore')) || [];
+	var expList = JSON.parse(localStorage.getItem('expStore')) || [];
+	var list = [];
+	foodList.push(name);
+	expList.push(future);
+
+	for (var j=0; j<foodList.length; j++)
+		list.push({'namedfood': foodList[j], 'exp': expList[j]});
+
+	list.sort(function(a, b) {
+		return ((a.exp < b.exp) ? -1 : ((a.exp == b.exp) ? 0 : 1));
+	});
+
+	for (var k=0; k<list.length; k++) {
+		foodList[k] = list[k].namedfood;
+		expList[k] = list[k].exp;
+	}	
+
+	localStorage.setItem('foodStore', JSON.stringify(foodList));
+	localStorage.setItem('expStore', JSON.stringify(expList));
+	location.href = 'index.html';
+	alert("Added " + name);
+	//window.location.href ='index.html';
+	//spawnNotification("bodyTest","iconTest","titleTest");
+}
+function sortList(){
+	var B = JSON.parse(localStorage.getItem('foodStore')) || [];
+	var A = JSON.parse(localStorage.getItem('expStore')) || [];
+	var all = [];
+
+	for (var i = 0; i < B.length; i++) {
+	    all.push({ 'A': A[i], 'B': B[i] });
+	}
+
+	all.sort(function(a, b) {
+	  return a.A - b.A;
+	});
+
+	A = [];
+	B = [];
+
+	for (var i = 0; i < all.length; i++) {
+	   A.push(all[i].A);
+	   B.push(all[i].B);
+	}    
+}
+
+function randomImage(){
+ return "images/"+ Math.floor((Math.random() * 83) + 2) +".png";
+}
+
