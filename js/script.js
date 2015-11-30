@@ -246,7 +246,22 @@ function sortList(){
 	   B.push(all[i].B);
 	}    
 }
-
+function bSort(){
+	var foods = JSON.parse(localStorage.getItem('foodStore')) || [];
+	var dates = JSON.parse(localStorage.getItem('expStore')) || [];
+	var both = [];
+	
+	for (var i = 0; i<foods.length;i++){
+		if(foods.length==0){
+			foods.push
+		}
+		if (dates[i]<=dates[i-1]){
+			
+		}
+		both.push({'Name':foods[i], 'Date':dates[i]});
+	}
+	
+}
 function randomImage(){
  return "images/"+ Math.floor((Math.random() * 83) + 2) +".png";
 }
