@@ -2594,16 +2594,19 @@ a:hover,
 a:focus {
   color: #009688;
 }
+
 body .well.well-sm,
 .container .well.well-sm,
 .container-fluid .well.well-sm {
   padding: 10px;
 }
+
 body .well.well-lg,
 .container .well.well-lg,
 .container-fluid .well.well-lg {
   padding: 26px;
 }
+
 body .well,
 .container .well,
 .container-fluid .well,
@@ -2617,6 +2620,34 @@ body .jumbotron,
   border-radius: 2px;
   border: 0;
 }
+body .wellRed,
+.container .wellRed,
+.container-fluid .wellRed,
+body .jumbotron,
+.container .jumbotron,
+.container-fluid .jumbotron {
+  background-color: red;
+  padding: 19px;
+  margin-bottom: 20px;
+  box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border-radius: 2px;
+  border: 0;
+}
+body .wellYellow,
+.container .wellYellow,
+.container-fluid .wellYellow,
+body .jumbotron,
+.container .jumbotron,
+.container-fluid .jumbotron {
+  background-color: yellow;
+  padding: 19px;
+  margin-bottom: 20px;
+  box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border-radius: 2px;
+  border: 0;
+}
+
+/*
 body .well p,
 .container .well p,
 .container-fluid .well p,
@@ -2855,6 +2886,7 @@ body .jumbotron-material-blue-grey,
 .container-fluid .jumbotron-material-blue-grey {
   background-color: #607d8b;
 }
+*/
 .btn {
   position: relative;
   padding: 8px 30px;

@@ -1,5 +1,7 @@
 // The following function gets food items from input and calls function to add to list
+/*
 var addFoods = function(){
+	alert("in Add foods");
 	var name = document.getElementById("inputFood").value;
 	var date = document.getElementById("expireDate").value;
 	if (daysLeft(date[i]) == NaN)
@@ -20,6 +22,7 @@ var addFoods = function(){
 	}
 	sortList();
 }
+*/
 function spawnNotification(theBody,theIcon,theTitle){
 	var options = {body: theBody, icon: theIcon}
 	var n = new Notification(theTitle,options);
@@ -31,7 +34,17 @@ function addDiv(i){
 	//sortList();
 	var food = JSON.parse(localStorage.getItem('foodStore'));
 	var date = JSON.parse(localStorage.getItem('expStore'));
-	$("#initialDiv").append('<div class="well"><div class="row-picture"><div class="least-content" align="right" style="float: right; position: relative; top: +12px;">'+ daysLeft(date[i]) +' </div><img class="circle" src="'+ img +'" alt="icon"></div>' + food[i] +'</div>')
+	if(daysLeft(date[i])<=2)
+	{
+			$("#initialDiv").append('<div class="wellRed"><div class="row-picture"><div class="least-content" align="right" style="float: right; position: relative; top: +12px;">'+ daysLeft(date[i]) +' </div><img class="circle" src="'+ img +'" alt="icon"></div>' + food[i] +'</div>')
+	}
+	else if(daysLeft(date[i])<=5 && daysLeft(date[i])>2){
+			$("#initialDiv").append('<div class="wellYellow"><div class="row-picture"><div class="least-content" align="right" style="float: right; position: relative; top: +12px;">'+ daysLeft(date[i]) +' </div><img class="circle" src="'+ img +'" alt="icon"></div>' + food[i] +'</div>')
+	}
+	else
+	{
+			$("#initialDiv").append('<div class="well"><div class="row-picture"><div class="least-content" align="right" style="float: right; position: relative; top: +12px;">'+ daysLeft(date[i]) +' </div><img class="circle" src="'+ img +'" alt="icon"></div>' + food[i] +'</div>')
+	}
 	return;
 }
 function addDivWithDelete(i){
@@ -152,15 +165,10 @@ function oneWeek(){
 		foodList[k] = list[k].namedfood;
 		expList[k] = list[k].exp;
 	}	
-
 	localStorage.setItem('foodStore', JSON.stringify(foodList));
 	localStorage.setItem('expStore', JSON.stringify(expList));
-	//location.href = 'index.html';
-	window.location.replace('index.html');
-	//$.mobile.changePage('index.html');
-	//spawnNotification("bodyTest","iconTest","titleTest");
+	window.location.assign('index.html');
 	alert("Added " + name);
-	//window.location.href = 'index.html';
 }
 function twoWeeks(){
 	var name = document.getElementById("inputFood").value;
