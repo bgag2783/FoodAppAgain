@@ -1,28 +1,25 @@
-// The following function gets food items from input and calls function to add to list
-/*
-var addFoods = function(){
-	alert("in Add foods");
-	var name = document.getElementById("inputFood").value;
-	var date = document.getElementById("expireDate").value;
-	if (daysLeft(date[i]) == NaN)
-	{
-		location.href = 'addFood.html';
-		return false;
-	}
-	else{
-		var foodList = JSON.parse(localStorage.getItem('foodStore')) || [];
-		var expList = JSON.parse(localStorage.getItem('expStore')) || [];
-		foodList.push(namefood);
-		expList.push(date);
-		localStorage.setItem('foodStore', JSON.stringify(foodList));
-		localStorage.setItem('expStore', JSON.stringify(expList));
-		location.href ='main.html';
-		//spawnNotification("bodyTest","iconTest","titleTest");
-		alert();
-	}
-	sortList();
-}
-*/
+var LISTFOOD = JSON.parse(localStorage.getItem('foodStore')) || [];
+var LISTEXP = JSON.parse(localStorage.getItem('expStore')) || [];
+function bubbleSort(a, b) {
+    var swapped;
+    do {
+        swapped = false;
+        for (var i=0; i < a.length-1; i++) {
+            if (a[i] > a[i+1])
+            {
+                var temp = a[i];
+                a[i] = a[i+1];
+                a[i+1] = temp;
+                
+                var temp = b[i];
+                b[i] = b[i+1];
+                b[i+1] = temp;
+                swapped = true;
+            }
+        }
+    } while (swapped);
+}  
+
 function spawnNotification(theBody,theIcon,theTitle){
 	var options = {body: theBody, icon: theIcon}
 	var n = new Notification(theTitle,options);
@@ -31,47 +28,39 @@ function spawnNotification(theBody,theIcon,theTitle){
 // The following function adds the input food item to the list
 function addDiv(i){
 	var img = randomImage();
-	//sortList();
+	bubbleSort(LISTEXP, LISTFOOD);
 	var food = JSON.parse(localStorage.getItem('foodStore'));
 	var date = JSON.parse(localStorage.getItem('expStore'));
 	if(daysLeft(date[i])<=2)
 	{
-			$("#initialDiv").append('<div class="wellRed"><div class="row-picture"><div class="least-content" align="right" style="float: right; position: relative; top: +12px;">'+ daysLeft(date[i]) +' </div><img class="circle" src="'+ img +'" alt="icon"></div>' + food[i] +'</div>')
+			$("#initialDiv").append('<div class="wellRed"><div class="row-picture"><div class="least-content" align="right" style="float: right; position: relative; top: +12px;">'+ daysLeft(date[i]) +' </div><div class="deleteDiv" align="center" style="float: center; position: relative;"><a class="btn btn-primary btn-lg" onclick="deleteFood('+i+')">Remove</a></div><img class="circle" src="'+ img +'" alt="icon"></div>' + food[i] +'</div>')
 	}
 	else if(daysLeft(date[i])<=5 && daysLeft(date[i])>2){
-			$("#initialDiv").append('<div class="wellYellow"><div class="row-picture"><div class="least-content" align="right" style="float: right; position: relative; top: +12px;">'+ daysLeft(date[i]) +' </div><img class="circle" src="'+ img +'" alt="icon"></div>' + food[i] +'</div>')
+			$("#initialDiv").append('<div class="wellYellow"><div class="row-picture"><div class="least-content" align="right" style="float: right; position: relative; top: +12px;">'+ daysLeft(date[i]) +' </div><div class="deleteDiv" align="center" style="float: center; position: relative;"><a class="btn btn-primary btn-lg" onclick="deleteFood('+i+')">Remove</a></div><img class="circle" src="'+ img +'" alt="icon"></div>' + food[i] +'</div>')
 	}
 	else
 	{
-			$("#initialDiv").append('<div class="well"><div class="row-picture"><div class="least-content" align="right" style="float: right; position: relative; top: +12px;">'+ daysLeft(date[i]) +' </div><img class="circle" src="'+ img +'" alt="icon"></div>' + food[i] +'</div>')
+			$("#initialDiv").append('<div class="well"><div class="row-picture"><div class="least-content" align="right" style="float: right; position: relative; top: +12px;">'+ daysLeft(date[i]) +' </div><div class="deleteDiv" align="center" style="float: center; position: relative;"><a class="btn btn-primary btn-lg" onclick="deleteFood('+i+')">Remove</a></div><img class="circle" src="'+ img +'" alt="icon"></div>' + food[i] +'</div>')
 	}
+	$(".deleteDiv").hide();
 	return;
-}
-function addDivWithDelete(i){
-	alert("in addDivWithDelete");
-	var img = "images/9.png";
-	var food = JSON.parse(localStorage.getItem('foodStore'));
-	var date = JSON.parse(localStorage.getItem('expStore'));
-	alert("before jquery");
 	
-	$("#initialDiv").append('<div class="well"><div class="row-picture"><div class="least-content" align="right" style="float: right; position: relative; top: +12px; right: 30%">'+ daysLeft(date[i]) +'</div><div><a class="btn btn-primary btn-lg" onclick="test()" align="center" style="float: right; position: relative">Delete</a></div><img class="circle" src="'+ img +'" alt="icon"></div>'+ food[i] +'</div>')
-	alert("after jquery");
-	return;
 }
-
 // The following function adds all elements in localStorage to food list
 function addAll(){
 	var food = JSON.parse(localStorage.getItem('foodStore'));
+	//sort the list
+	bubbleSort(LISTEXP, LISTFOOD);
 	var i = 0;
 	// Iterate through 
 	for (i ; i< food.length; i++){
 		addDiv(i);
 	}
-	sortList();
 }
-
+/*
 // The following function calculates the days left until a food item expires
 function daysLeft(expDate){
+
 	//This function performs the calculation
 	Date.daysBetween = function(date1, date2) {
 		//Get 1 day in milliseconds
@@ -90,56 +79,44 @@ function daysLeft(expDate){
 	//Set the two dates
 	var today = new Date();
 	var expiry = new Date(expDate);
-
-	return Date.daysBetween(today, expiry);	
+	
+	return Date.daysBetween(today, expiry);
 }
-
+*/
+// The following function calculates the days left until a food item expires
+function daysLeft(expDate){
+	var date1 = new Date();
+	var date2 = new Date(expDate);
+	var timeDiff = date2.getTime() - date1.getTime();
+	var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
+	return diffDays;
+}
 // The following function clears all data in food list
 function clearAll(){
 	localStorage.clear();
 	location.reload();
 }
-
-// The following function validates the input field
-/*function checkDate(field) {
-	var allowBlank = true;
-	var minYear = 2014;
-	var maxYear = (new Date()).getFullYear()+2;
-	
-	var errorMsg = "";
-	
-	// regular expression to match required date format
-	re = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
-	
-	if(field.value != '') {
-		if(regs = field.value.match(re)) {
-		if(regs[2] < 1 || regs[2] > 31) {
-			errorMsg = "Invalid value for day: " + regs[2];
-		} else if(regs[1] < 1 || regs[1] > 12) {
-			errorMsg = "Invalid value for month: " + regs[1];
-		} else if(regs[3] < minYear || regs[3] > maxYear) {
-			errorMsg = "Invalid value for year: " + regs[3] + " - must be between " + minYear + " and " + maxYear;
-		}
-		} else {
-		errorMsg = "Invalid date format: " + field.value;
-		}
-	} else if(!allowBlank) {
-		errorMsg = "Empty date not allowed!";
-	}
-	
-	if(errorMsg != "") {
-		alert(errorMsg);
-		field.focus();
-		return false;
-	}
-	return true;
-}*/
-
 function edit(){
-		$("#initialDiv").append('<div class="well"><div class="row-picture"><div class="least-content" align="right" style="float: right; position: relative; top: +12px;">'+ daysLeft(date[i]) +' </div><img class="circle" src="'+ img +'" alt="icon"></div>' + food[i] +'</div>')
+	$(".deleteDiv").show();
 }
-function deleteFood(){
+function shoppingList(){
+	alert("This is the shopping list!");
+}
+function deleteFood(i){
+	LISTFOOD.splice(i, 1);
+	LISTEXP.splice(i, 1);
+	localStorage.removeItem('foodStore');
+	localStorage.removeItem('expStore');
+	localStorage.setItem('foodStore', JSON.stringify(LISTFOOD));
+	localStorage.setItem('expStore', JSON.stringify(LISTEXP));
 	
+	if (confirm("Would you like to add this item to your shopping list?") == true) {
+        shoppingList();
+    } else {
+    }
+	//window.confirm("Would you like to add this item to your shopping list?");
+	//navigator.notification.alert('Would you like to add this item to the shopping list?', shoppingList, 'Shopping List', 'Yes')
+	location.reload();
 }
 function test(){
 	alert("button has been pressed");
@@ -153,7 +130,7 @@ function oneWeek(){
 	var list = [];
 	foodList.push(name);
 	expList.push(future);
-
+	
 	for (var j=0; j<foodList.length; j++)
 		list.push({'namedfood': foodList[j], 'exp': expList[j]});
 
@@ -165,6 +142,7 @@ function oneWeek(){
 		foodList[k] = list[k].namedfood;
 		expList[k] = list[k].exp;
 	}	
+	
 	localStorage.setItem('foodStore', JSON.stringify(foodList));
 	localStorage.setItem('expStore', JSON.stringify(expList));
 	window.location.assign('index.html');
@@ -227,7 +205,7 @@ function oneMonth(){
 	localStorage.setItem('expStore', JSON.stringify(expList));
 	//window.location='index.html';
 	//location.href = 'index.html';
-	$.mobile.changePage('index.html');
+	//$.mobile.changePage('index.html');
 	window.location.assign('index.html');
 	alert("Added " + name);
 	//window.location.href ='index.html';
@@ -254,30 +232,14 @@ function sortList(){
 	   B.push(all[i].B);
 	}    
 }
-function bSort(){
-	var foods = JSON.parse(localStorage.getItem('foodStore')) || [];
-	var dates = JSON.parse(localStorage.getItem('expStore')) || [];
-	var both = [];
-	
-	for (var i = 0; i<foods.length;i++){
-		if(foods.length==0){
-			foods.push
-		}
-		if (dates[i]<=dates[i-1]){
-			
-		}
-		both.push({'Name':foods[i], 'Date':dates[i]});
-	}
-	
-}
+
 function randomImage(){
  return "images/"+ Math.floor((Math.random() * 83) + 2) +".png";
 }
 function submitButton(){
 	var name = document.getElementById("inputFood").value;
 	var dateEntered = document.getElementById("expireDate").value;
-	//var today = new Date();
-	//var future = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000);
+	//alert(dateEntered);
 	var foodList = JSON.parse(localStorage.getItem('foodStore')) || [];
 	var expList = JSON.parse(localStorage.getItem('expStore')) || [];
 	var list = [];
@@ -295,9 +257,10 @@ function submitButton(){
 	}	
 	localStorage.setItem('foodStore', JSON.stringify(foodList));
 	localStorage.setItem('expStore', JSON.stringify(expList));
+
+	window.location.assign('index.html');
+	alert("");
 	//window.location='index.html';
 	//location.href = 'index.html';
 	//$.mobile.changePage('index.html');
-	window.location.assign('index.html');
-	alert("");
 }

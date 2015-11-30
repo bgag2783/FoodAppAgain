@@ -2626,7 +2626,7 @@ body .wellRed,
 body .jumbotron,
 .container .jumbotron,
 .container-fluid .jumbotron {
-  background-color: red;
+  background-color: #F44336;
   padding: 19px;
   margin-bottom: 20px;
   box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -2639,7 +2639,7 @@ body .wellYellow,
 body .jumbotron,
 .container .jumbotron,
 .container-fluid .jumbotron {
-  background-color: yellow;
+  background-color: #FFEB3B ;
   padding: 19px;
   margin-bottom: 20px;
   box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
