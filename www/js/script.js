@@ -39,7 +39,8 @@ var addFoods2 = function(){
 */
 // The following function adds the input food item to the list
 function addDiv(i){
-	var img = "images/9.png";
+	//var img = "images/9.png";
+	var img = randomImage();
 	var food = JSON.parse(localStorage.getItem('foodStore'));
 	var date = JSON.parse(localStorage.getItem('expStore'));
 	$("#initialDiv").append('<div class="well"><div class="row-picture"><div class="least-content" align="right" style="float: right; position: relative; top: +12px;">'+ daysLeft(date[i]) +' </div><img class="circle" src="'+ img +'" alt="icon"></div>' + food[i] +'</div>')
@@ -177,4 +178,49 @@ function oneWeek(){
 		//spawnNotification("bodyTest","iconTest","titleTest");
 		alert(nextWeek);
 	}
+}
+function twoWeeks(){
+	var name = document.getElementById("inputFood").value;
+	var today = new Date();
+	var twoWeeks = new Date(today.getTime() + 14 * 24 * 60 * 60 * 1000);
+	if (!checkDate(document.getElementById("expireDate")))
+	{
+		location.href = 'addFood.html';
+		return false;
+	}
+	else{
+		var foodList = JSON.parse(localStorage.getItem('foodStore')) || [];
+		var expList = JSON.parse(localStorage.getItem('expStore')) || [];
+		foodList.push(name);
+		expList.push(twoWeeks);
+		localStorage.setItem('foodStore', JSON.stringify(foodList));
+		localStorage.setItem('expStore', JSON.stringify(expList));
+		location.href ='index.html';
+		//spawnNotification("bodyTest","iconTest","titleTest");
+		alert(twoWeeks);
+	}
+}
+function oneMonth(){
+	var name = document.getElementById("inputFood").value;
+	var today = new Date();
+	var oneMonth = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000);
+	if (!checkDate(document.getElementById("expireDate")))
+	{
+		location.href = 'addFood.html';
+		return false;
+	}
+	else{
+		var foodList = JSON.parse(localStorage.getItem('foodStore')) || [];
+		var expList = JSON.parse(localStorage.getItem('expStore')) || [];
+		foodList.push(name);
+		expList.push(oneMonth);
+		localStorage.setItem('foodStore', JSON.stringify(foodList));
+		localStorage.setItem('expStore', JSON.stringify(expList));
+		location.href ='index.html';
+		//spawnNotification("bodyTest","iconTest","titleTest");
+		alert(oneMonth);
+	}
+}
+function randomImage(){
+	return "images/"+ Math.floor((Math.random() * 83) + 2) +".png";
 }
