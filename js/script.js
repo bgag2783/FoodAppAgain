@@ -1,5 +1,6 @@
 var LISTFOOD = JSON.parse(localStorage.getItem('foodStore')) || [];
 var LISTEXP = JSON.parse(localStorage.getItem('expStore')) || [];
+var LISTDELETED = JSON.parse(localStorage.getItem('deletedStore')) || [];
 function bubbleSort(a, b) {
     var swapped;
     do {
@@ -57,32 +58,6 @@ function addAll(){
 		addDiv(i);
 	}
 }
-/*
-// The following function calculates the days left until a food item expires
-function daysLeft(expDate){
-
-	//This function performs the calculation
-	Date.daysBetween = function(date1, date2) {
-		//Get 1 day in milliseconds
-		var one_day=1000*60*60*24;
-		
-		// Convert both dates to milliseconds
-		var date1_ms = date1.getTime();
-		var date2_ms = date2.getTime();
-		
-		// Calculate the difference in milliseconds
-		var difference_ms = date2_ms - date1_ms;
-			
-		// Convert back to days and return
-		return Math.round(difference_ms/one_day); 
-	}
-	//Set the two dates
-	var today = new Date();
-	var expiry = new Date(expDate);
-	
-	return Date.daysBetween(today, expiry);
-}
-*/
 // The following function calculates the days left until a food item expires
 function daysLeft(expDate){
 	var date1 = new Date();
@@ -99,10 +74,31 @@ function clearAll(){
 function edit(){
 	$(".deleteDiv").show();
 }
-function shoppingList(){
-	alert("This is the shopping list!");
+function shoppingList(foodName){
+	LISTDELETED.push(foodName);
+	localStorage.setItem('deletedStore', JSON.stringify(LISTDELETED));	
+}
+function shoppingAddAll(){
+	alert("in shoppingAddAll");
+	var shoppingList = JSON.parse(localStorage.getItem('deletedStore'));
+	var i = 0;
+	// Iterate through 
+	for (i ; i< shoppingList.length; i++){
+		addShoppingDiv(i);
+	}
+}
+function addShoppingDiv(i){
+	alert("in addShopping Div");
+	var shoppingList = JSON.parse(localStorage.getItem('deletedStore'));
+	alert(shoppingList[i]);
+	//$("#listOfFood").append("I put stuff here!!")
+	$("#listOfFood").append('<div class="well"><div class="row"><div class="deleteShoppingDiv" align="center" style="float: center; position: relative;"><a class="btn btn-primary btn-lg" onclick="deleteShopping()">Remove</a></div>'+ shoppingList[i]+'</div>')
+	$(".deleteShoppingDiv").hide();
+	return;
+	
 }
 function deleteFood(i){
+	var foodName = LISTFOOD[i];
 	LISTFOOD.splice(i, 1);
 	LISTEXP.splice(i, 1);
 	localStorage.removeItem('foodStore');
@@ -111,7 +107,7 @@ function deleteFood(i){
 	localStorage.setItem('expStore', JSON.stringify(LISTEXP));
 	
 	if (confirm("Would you like to add this item to your shopping list?") == true) {
-        shoppingList();
+        shoppingList(foodName);
     } else {
     }
 	//window.confirm("Would you like to add this item to your shopping list?");
