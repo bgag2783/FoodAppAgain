@@ -34,14 +34,14 @@ function addDiv(i){
 	var date = JSON.parse(localStorage.getItem('expStore'));
 	if(daysLeft(date[i])<=2)
 	{
-			$("#initialDiv").append('<div class="wellRed"><div class="row-picture"><div class="least-content" align="right" style="float: right; position: relative; top: +12px;">'+ daysLeft(date[i]) +' </div><div class="deleteDiv" align="center" style="float: center; position: relative;"><a class="btn btn-primary btn-lg" onclick="deleteFood('+i+')">Remove</a></div><img class="circle" src="'+ img +'" alt="icon"></div>' + food[i] +'</div>')
+			$("#initialDiv").append('<div class="wellRed"><div class="row-picture"><div class="least-content" align="right" style="float: right; position: relative; top: +12px; right: 50px;">'+ daysLeft(date[i]) +' </div><div class="deleteDiv" align="center" style="float: center; position: relative;"><a class="btn btn-primary btn-lg" onclick="deleteFood('+i+')">Remove</a></div><img class="circle" src="'+ img +'" alt="icon"></div>' + food[i] +'</div>')
 	}
 	else if(daysLeft(date[i])<=5 && daysLeft(date[i])>2){
-			$("#initialDiv").append('<div class="wellYellow"><div class="row-picture"><div class="least-content" align="right" style="float: right; position: relative; top: +12px;">'+ daysLeft(date[i]) +' </div><div class="deleteDiv" align="center" style="float: center; position: relative;"><a class="btn btn-primary btn-lg" onclick="deleteFood('+i+')">Remove</a></div><img class="circle" src="'+ img +'" alt="icon"></div>' + food[i] +'</div>')
+			$("#initialDiv").append('<div class="wellYellow"><div class="row-picture"><div class="least-content" align="right" style="float: right; position: relative; top: +12px; right: 50px;">'+ daysLeft(date[i]) +' </div><div class="deleteDiv" align="center" style="float: center; position: relative;"><a class="btn btn-primary btn-lg" onclick="deleteFood('+i+')">Remove</a></div><img class="circle" src="'+ img +'" alt="icon"></div>' + food[i] +'</div>')
 	}
 	else
 	{
-			$("#initialDiv").append('<div class="well"><div class="row-picture"><div class="least-content" align="right" style="float: right; position: relative; top: +12px;">'+ daysLeft(date[i]) +' </div><div class="deleteDiv" align="center" style="float: center; position: relative;"><a class="btn btn-primary btn-lg" onclick="deleteFood('+i+')">Remove</a></div><img class="circle" src="'+ img +'" alt="icon"></div>' + food[i] +'</div>')
+			$("#initialDiv").append('<div class="well"><div class="row-picture"><div class="least-content" align="right" style="float: right; position: relative; top: +12px; right: 50px;">'+ daysLeft(date[i]) +' </div><div class="deleteDiv" align="center" style="float: center; position: relative;"><a class="btn btn-primary btn-lg" onclick="deleteFood('+i+')">Remove</a></div><img class="circle" src="'+ img +'" alt="icon"></div>' + food[i] +'</div>')
 	}
 	$(".deleteDiv").hide();
 	return;
@@ -72,10 +72,10 @@ function clearAll(){
 	location.reload();
 }
 function edit(){
-	$(".deleteDiv").show();
+	$(".deleteDiv").toggle();
 }
 function shoppingEdit(){
-	$(".deleteShoppingDiv").show();
+	$(".deleteShoppingDiv").toggle();
 }
 function shoppingList(foodName){
 	LISTDELETED.push(foodName);
@@ -94,7 +94,6 @@ function addShoppingDiv(i){
 	$("#listOfFood").append('<div class="well"><div class="row"><div class="deleteShoppingDiv" align="center" style="float: center; position: relative;"><a class="btn btn-primary btn-lg" onclick="deleteShopping('+i+')">Remove</a></div>'+ shoppingList[i]+'</div>')
 	$(".deleteShoppingDiv").hide();
 	return;
-	
 }
 function deleteShopping(i){
 	LISTDELETED.splice(i, 1);
@@ -268,4 +267,8 @@ function submitButton(){
 	//window.location='index.html';
 	//location.href = 'index.html';
 	//$.mobile.changePage('index.html');
+}
+function submitButtonShopping(){
+	var foodName = document.getElementById("inputFoodShopping").value;
+	shoppingList(foodName);
 }
