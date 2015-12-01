@@ -74,12 +74,14 @@ function clearAll(){
 function edit(){
 	$(".deleteDiv").show();
 }
+function shoppingEdit(){
+	$(".deleteShoppingDiv").show();
+}
 function shoppingList(foodName){
 	LISTDELETED.push(foodName);
 	localStorage.setItem('deletedStore', JSON.stringify(LISTDELETED));	
 }
 function shoppingAddAll(){
-	alert("in shoppingAddAll");
 	var shoppingList = JSON.parse(localStorage.getItem('deletedStore'));
 	var i = 0;
 	// Iterate through 
@@ -88,14 +90,17 @@ function shoppingAddAll(){
 	}
 }
 function addShoppingDiv(i){
-	alert("in addShopping Div");
 	var shoppingList = JSON.parse(localStorage.getItem('deletedStore'));
-	alert(shoppingList[i]);
-	//$("#listOfFood").append("I put stuff here!!")
-	$("#listOfFood").append('<div class="well"><div class="row"><div class="deleteShoppingDiv" align="center" style="float: center; position: relative;"><a class="btn btn-primary btn-lg" onclick="deleteShopping()">Remove</a></div>'+ shoppingList[i]+'</div>')
+	$("#listOfFood").append('<div class="well"><div class="row"><div class="deleteShoppingDiv" align="center" style="float: center; position: relative;"><a class="btn btn-primary btn-lg" onclick="deleteShopping('+i+')">Remove</a></div>'+ shoppingList[i]+'</div>')
 	$(".deleteShoppingDiv").hide();
 	return;
 	
+}
+function deleteShopping(i){
+	LISTDELETED.splice(i, 1);
+	localStorage.removeItem('deletedStore');
+	localStorage.setItem('deletedStore', JSON.stringify(LISTDELETED));
+	location.reload();
 }
 function deleteFood(i){
 	var foodName = LISTFOOD[i];
@@ -119,6 +124,7 @@ function test(){
 }
 function oneWeek(){
 	var name = document.getElementById("inputFood").value;
+	spawnNotification(name,"img","You added:");
 	var today = new Date();
 	var future = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
 	var foodList = JSON.parse(localStorage.getItem('foodStore')) || [];
@@ -142,10 +148,11 @@ function oneWeek(){
 	localStorage.setItem('foodStore', JSON.stringify(foodList));
 	localStorage.setItem('expStore', JSON.stringify(expList));
 	window.location.assign('index.html');
-	alert("Added " + name);
+	//alert("Added " + name);
 }
 function twoWeeks(){
 	var name = document.getElementById("inputFood").value;
+	spawnNotification(name,"img","You added:");
 	var today = new Date();
 	var future = new Date(today.getTime() + 14 * 24 * 60 * 60 * 1000);
 	var foodList = JSON.parse(localStorage.getItem('foodStore')) || [];
@@ -171,12 +178,13 @@ function twoWeeks(){
 	//location.href = 'index.html';
 	//$.mobile.changePage('index.html');
 	window.location.replace('index.html');
-	alert("Added " + name);
+	//alert("Added " + name);
 	//window.location.href ='index.html';
 	//spawnNotification("bodyTest","iconTest","titleTest");
 }
 function oneMonth(){
 	var name = document.getElementById("inputFood").value;
+	spawnNotification(name,"img","You added:");
 	var today = new Date();
 	var future = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000);
 	var foodList = JSON.parse(localStorage.getItem('foodStore')) || [];
@@ -196,14 +204,14 @@ function oneMonth(){
 		foodList[k] = list[k].namedfood;
 		expList[k] = list[k].exp;
 	}	
-
+	
 	localStorage.setItem('foodStore', JSON.stringify(foodList));
 	localStorage.setItem('expStore', JSON.stringify(expList));
 	//window.location='index.html';
 	//location.href = 'index.html';
 	//$.mobile.changePage('index.html');
 	window.location.assign('index.html');
-	alert("Added " + name);
+	//alert("Added " + name);
 	//window.location.href ='index.html';
 	//spawnNotification("bodyTest","iconTest","titleTest");
 }
@@ -253,9 +261,10 @@ function submitButton(){
 	}	
 	localStorage.setItem('foodStore', JSON.stringify(foodList));
 	localStorage.setItem('expStore', JSON.stringify(expList));
-
-	window.location.assign('index.html');
-	alert("");
+	//$.mobile.changePage('index.html');
+	spawnNotification(name,"img","You added:");
+	//window.location.assign('index.html');
+	//alert("");
 	//window.location='index.html';
 	//location.href = 'index.html';
 	//$.mobile.changePage('index.html');
