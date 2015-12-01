@@ -124,7 +124,7 @@ function test(){
 }
 function oneWeek(){
 	var name = document.getElementById("inputFood").value;
-	spawnNotification(name,"img","You added:");
+	spawnNotification(name,"images/thumbsUp.png","You added:");
 	var today = new Date();
 	var future = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
 	var foodList = JSON.parse(localStorage.getItem('foodStore')) || [];
@@ -152,7 +152,7 @@ function oneWeek(){
 }
 function twoWeeks(){
 	var name = document.getElementById("inputFood").value;
-	spawnNotification(name,"img","You added:");
+	spawnNotification(name,"images/thumbsUp.png","You added:");
 	var today = new Date();
 	var future = new Date(today.getTime() + 14 * 24 * 60 * 60 * 1000);
 	var foodList = JSON.parse(localStorage.getItem('foodStore')) || [];
@@ -184,7 +184,7 @@ function twoWeeks(){
 }
 function oneMonth(){
 	var name = document.getElementById("inputFood").value;
-	spawnNotification(name,"img","You added:");
+	spawnNotification(name,"images/thumbsUp.png","You added:");
 	var today = new Date();
 	var future = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000);
 	var foodList = JSON.parse(localStorage.getItem('foodStore')) || [];
@@ -242,8 +242,8 @@ function randomImage(){
 }
 function submitButton(){
 	var name = document.getElementById("inputFood").value;
+	spawnNotification(name,"images/thumbsUp.png","You added:");
 	var dateEntered = document.getElementById("expireDate").value;
-	//alert(dateEntered);
 	var foodList = JSON.parse(localStorage.getItem('foodStore')) || [];
 	var expList = JSON.parse(localStorage.getItem('expStore')) || [];
 	var list = [];
@@ -262,7 +262,7 @@ function submitButton(){
 	localStorage.setItem('foodStore', JSON.stringify(foodList));
 	localStorage.setItem('expStore', JSON.stringify(expList));
 	//$.mobile.changePage('index.html');
-	spawnNotification(name,"img","You added:");
+	
 	//window.location.assign('index.html');
 	//alert("");
 	//window.location='index.html';
