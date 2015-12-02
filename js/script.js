@@ -1,6 +1,7 @@
 var LISTFOOD = JSON.parse(localStorage.getItem('foodStore')) || [];
 var LISTEXP = JSON.parse(localStorage.getItem('expStore')) || [];
 var LISTDELETED = JSON.parse(localStorage.getItem('deletedStore')) || [];
+var deleteBool = 0;
 function bubbleSort(a, b) {
     var swapped;
     do {
@@ -12,7 +13,7 @@ function bubbleSort(a, b) {
                 a[i] = a[i+1];
                 a[i+1] = temp;
                 
-                var temp = b[i];
+                temp = b[i];
                 b[i] = b[i+1];
                 b[i+1] = temp;
                 swapped = true;
@@ -43,7 +44,15 @@ function addDiv(i){
 	{
 			$("#initialDiv").append('<div class="well"><div class="row-picture"><div class="least-content" align="right" style="float: right; position: relative; top: +12px; right: 50px;">'+ daysLeft(date[i]) +' </div><div class="deleteDiv" align="center" style="float: center; position: relative;"><a class="btn btn-primary btn-lg" onclick="deleteFood('+i+')">Remove</a></div><img class="circle" src="'+ img +'" alt="icon"></div>' + food[i] +'</div>')
 	}
-	$(".deleteDiv").hide();
+	if (deleteBool == 0)
+	{
+		$(".deleteDiv").hide();
+	}
+	else
+	{
+		$(".deleteDiv").show();
+	}
+	$("#deleteBoolDiv").append(deleteBool);
 	return;
 	
 }
@@ -73,6 +82,14 @@ function clearAll(){
 }
 function edit(){
 	$(".deleteDiv").toggle();
+	if (deleteBool == 1)
+	{
+		deleteBool = 0;
+	}
+	else{
+		deleteBool = 1;
+	}
+	$("#deleteBoolDiv").append(deleteBool);
 }
 function shoppingEdit(){
 	$(".deleteShoppingDiv").toggle();
@@ -109,7 +126,7 @@ function deleteFood(i){
 	localStorage.removeItem('expStore');
 	localStorage.setItem('foodStore', JSON.stringify(LISTFOOD));
 	localStorage.setItem('expStore', JSON.stringify(LISTEXP));
-	
+	deleteBool = 1;
 	if (confirm("Would you like to add this item to your shopping list?") == true) {
         shoppingList(foodName);
     } else {
@@ -117,6 +134,7 @@ function deleteFood(i){
 	//window.confirm("Would you like to add this item to your shopping list?");
 	//navigator.notification.alert('Would you like to add this item to the shopping list?', shoppingList, 'Shopping List', 'Yes')
 	location.reload();
+	
 }
 function test(){
 	alert("button has been pressed");
@@ -241,7 +259,8 @@ function randomImage(){
 }
 function submitButton(){
 	var name = document.getElementById("inputFood").value;
-	spawnNotification(name,"images/thumbsUp.png","You added:");
+	//spawnNotification(name,"images/thumbsUp.png","You added:");
+	//$.notify("Hello World");
 	var dateEntered = document.getElementById("expireDate").value;
 	var foodList = JSON.parse(localStorage.getItem('foodStore')) || [];
 	var expList = JSON.parse(localStorage.getItem('expStore')) || [];
@@ -272,3 +291,32 @@ function submitButtonShopping(){
 	var foodName = document.getElementById("inputFoodShopping").value;
 	shoppingList(foodName);
 }
+/*
+function scan() {
+        console.log('scanning');
+        
+        var scanner = cordova.require("cordova/plugin/BarcodeScanner");
+
+        scanner.scan( function (result) { 
+
+            alert("We got a barcode\n" + 
+            "Result: " + result.text + "\n" + 
+            "Format: " + result.format + "\n" + 
+            "Cancelled: " + result.cancelled);  
+
+           console.log("Scanner result: \n" +
+                "text: " + result.text + "\n" +
+                "format: " + result.format + "\n" +
+                "cancelled: " + result.cancelled + "\n");
+            document.getElementById("info").innerHTML = result.text;
+            console.log(result);
+            //comment out here
+            if (args.format == "QR_CODE") {
+                window.plugins.childBrowser.showWebPage(args.text, { showLocationBar: false });
+            }
+            //comment out end here
+        }, function (error) { 
+            console.log("Scanning failed: ", error); 
+        } );
+    }
+	*/
