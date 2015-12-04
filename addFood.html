@@ -1,44 +1,94 @@
 <!DOCTYPE html>
+<?php
+//Step1
+ $db = mysql_connect("localhost","root","root"); 
+ if (!$db) {
+ die("Database connection failed miserably: " . mysql_error());
+ }
+//Step2
+ $db_select = mysql_select_db("food_expiration",$db);
+ if (!$db_select) {
+ die("Database selection also failed miserably: " . mysql_error());
+ }
+?>
+
 <html>
 <head>
-	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
     <link href="css/roboto.min.css" rel="stylesheet">
     <link href="css/material.css" rel="stylesheet">
     <link href="css/ripples.min.css" rel="stylesheet">
     <link href="css/styles.css" rel="stylesheet">
 </head>
 <body>
-    <form class="form-horizontal" onsubmit="submitButton()">
+    <!--<?php
+    /*$hello = "Hello World!"
+    echo $hello;
+
+    $result = mysql_query("SELECT Name, Type FROM food_expiration", $db);
+     if (!$result) {
+        die("Database query failed: " . mysql_error());
+     }
+     while ($row = mysql_fetch_array($result)) {
+        echo "Name: ".$row{'Name'}." Days: ".$row{'Type'}."<br/>";
+     }*/
+     ?>-->
+     <aside><button class="btn btn-fab btn-raised btn-info" style="float: right; position: fixed; right: 10px;" onclick="window.location.href='index.html'"><i class="mdi-action-home"></i></button></aside>
+    <form class="form-horizontal" onsubmit="addFoods()">
         <fieldset>
             <legend>Add food below</legend>
             <div class="form-group">
                 <input class="form-control input-lg" id="inputFood" placeholder="Enter Food Here" type="text">
                 <input class="form-control input-lg" id="expireDate" placeholder="Expiry (MM/DD/YYYY)" type="date">
+                <button type="submit" class="btn btn-raised btn-success" onclick="submitButton()">Submit</button>
             </div>
             <div class="form-group">
                 <div class="col-lg-10 col-lg-offset-2">
-                    <a href="index.html" class="btn btn-default">Home</a>
-                    <button type="submit" class="btn btn-primary" onclick="submitButton()">Submit</button>
                     <button class="btn btn-raised btn-info" onclick="oneWeek()">1 Week</button>
                     <button class="btn btn-raised btn-info" onclick="twoWeeks()">2 Weeks</button>
                     <button class="btn btn-raised btn-info" onclick="oneMonth()">1 Month</button>
-                    <!--<button class="btn btn-raised btn-info" onclick="cordova.plugins.barcodeScanner.scan()">Scan!</button>-->
                 </div>
+                <button class="btn btn-raised btn-primary" onclick="vegetable()">Vegetable</button>
+                <button class="btn btn-raised btn-primary" onclick="meat()">Meat</button>
+                <button class="btn btn-raised btn-primary" onclick="fish()">Fish</button>
+                <button class="btn btn-raised btn-primary" onclick="dairy()">Dairy</button>
+                <button class="btn btn-raised btn-primary" onclick="cooked()">Cooked</button>
+                <button class="btn btn-raised btn-primary" onclick="frozen()">Frozen</button>
             </div>
         </fieldset>
     </form>
+    <!--<div class="btn-group">
+        <a href="javascript:void(0)" class="btn btn-primary btn-raised">Primary raised</a>
+        <a href="bootstrap-elements.html" data-target="#" class="btn btn-primary btn-raised dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+        <ul class="dropdown-menu">
+            <li><a href="javascript:void(0)">Action</a></li>
+            <li><a href="javascript:void(0)">Another action</a></li>
+            <li><a href="javascript:void(0)">Something else here</a></li>
+            <li class="divider"></li>
+            <li><a href="javascript:void(0)">Separated link</a></li>
+        </ul>
+    </div>-->
+    <!--<?php
+    //close the connection
+    //mysql_close($dbhandle);
+    ?>-->
+    <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <script src="lib/ripples.min.js"></script>
+    <script src="lib/material.min.js"></script>
+    <script src="js/script.js"></script>
+    <script src="jquery-1.11.3.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // This command is used to initialize some elements and make them work properly
+            $.material.init();
+        });
+    </script>
 </body>
-<script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-<script src="lib/ripples.min.js"></script>
-<script src="lib/material.min.js"></script>
-<script src="js/script.js"></script>
-<script src="jquery-1.11.3.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script>
-            $(document).ready(function() {
-                // This command is used to initialize some elements and make them work properly
-                $.material.init();
-            });
-        </script>
+
 </html>
